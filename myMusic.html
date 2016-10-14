@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>IS3 My Music</title>
+    <meta name="author" content="Shaun Macdonald 1005872m" />
+    <script src="midi.js"></script>
+    <script src="music.js"></script>
+  </head>
+  <body>
+    <h1>My musical objects</h1>
+    
+    <!-- Reuse this, or add additional text areas to display your songs -->
+    <textarea id="show" rows="10" cols="80"></textarea>
+    <br/>
+
+    <!-- Reuse this, or add additional buttons to download your songs -->
+    <button onclick="toMidi(mySong).save()">Download mySong</button>
+    
+    <script>
+	
+	  // Notes
+	  var C = 60;
+	  var D = 62;
+	  var E = 64;
+	  var F = 65;
+	  var G = 67;
+	  var A = 69;
+	  var B = 71;
+	  
+	  // Durations
+	  var quad = 512;
+	  var doubled = 256;
+	  var whole = 128;
+	  var half = 64;
+	  var quarter = 32;
+	  
+	  // Sharpen Pitch
+	  function sharp(note){
+		if (note != 64) return note + 1;
+	  }
+	  
+	  // Repeat a Sequences
+	  function repeat(sequence, times){
+		var output = []
+		for (i = 0; i < times; i++){
+			output.push(sequence);
+		}
+		output = new Seq(output);
+		return output;
+	  }
+	  
+	  // Various Sequences
+	  
+	  var Ending = new Par([ new Note(D + 12, doubled), 
+							 new Note(D, doubled),
+							 new Note(D - 12, doubled)
+						   ]);
+						   
+	  var MadWorldBar1 = new Seq([
+							  new Note(C + 12, half),
+							  new Note(E + 12, half),
+							  new Note(B, half),
+							  new Note(C + 12,half),
+							  new Note(A, half),
+							  new Note(B, half),
+							  new Note(G, half),
+							  new Note(F, quad)
+							  ]);
+							  
+	  var MadWorldBar2 = new Seq([
+							   new Note(C + 12, half),
+							   new Note(E + 12, half),
+							   new Note(B, half),
+							   new Note(C + 12,half),
+							   new Note(A, half),
+							   new Note(B, half),
+							   new Note(C + 12, half),
+							   Ending
+							   ]);					  
+							  
+	  var BluesSeq = new Seq([
+							  new Note(C, half),
+						      new Note(E, half),
+							  new Note(G, half),
+							  new Note(E, quarter),
+							  new Note(G, doubled)
+							  ]);
+							  
+	  
+      var MadWorld = new Seq([
+							MadWorldBar1,
+							MadWorldBar2
+							]);
+	  
+	  // Final song downloaded from Window, with twice slower tempo and using repeat function
+	  var mySong = repeat(MadWorld, 3).tempo(2);
+							 
+      document.getElementById("show").value += "mySong: " + mySong.toString() + "\n\n";
+    </script>
+  </body>
+</html>
